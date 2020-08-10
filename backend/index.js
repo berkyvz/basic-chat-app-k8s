@@ -28,11 +28,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('MESSAGE', (msg) => {
+    console.log(msg);
     if(msg.message.length > 0){
       io.emit('MESSAGE', msg);
     }
   });
-//TODO: ilk login olunca sockette sorun oluyor.
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

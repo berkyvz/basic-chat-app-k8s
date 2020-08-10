@@ -12,7 +12,7 @@ app.use(cors())
 
 const staticValues = {
     PORT : process.env.PORT || 5000,
-    HOST : process.env.NODE_ENV === 'PROD' ? 'socket-service': 'localhost',
+    HOST : process.env.NODE_ENV === 'PROD' ? 'chat-service': 'localhost',
     WEBSOCKET_PORT : process.env.SOCKET_PORT || 8080
 };
 
