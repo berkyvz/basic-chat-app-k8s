@@ -27,10 +27,12 @@ io.on('connection', (socket) => {
     io.emit('USER_CONNECTED', username);
   });
 
-  socket.on('SEND_MESSAGE', (msg) => {
-    socket.broadcast.emit('message', msg);
+  socket.on('MESSAGE', (msg) => {
+    if(msg.message.length > 0){
+      io.emit('MESSAGE', msg);
+    }
   });
-
+//TODO: ilk login olunca sockette sorun oluyor.
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
