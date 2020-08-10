@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Socketio server-side application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berkyvz/basic-chat-app-k8s.git"
+  },
+  "author": "Berk Yavuz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/berkyvz/basic-chat-app-k8s/issues"
+  },
+  "homepage": "https://github.com/berkyvz/basic-chat-app-k8s#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
