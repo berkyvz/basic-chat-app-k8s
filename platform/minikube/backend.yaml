@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-service
+  labels:
+    app:  chat-service
+    version: v1
+    type: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  chat-service
+      version: v1
+      type: backend
+  template:
+    metadata:
+      labels:
+        app:  chat-service
+        version: v1
+        type: backend
+    spec:
+      containers:
+      - image:  chat-service:latest
+        env:
+          - name:  NODE_PORT
+            value: 8080
+        imagePullPolicy: IfNotPresent
+        name:  chat-service
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "250M"
+          limits:
+            cpu: "200m"
+            memory: "350M"    
+        ports:
+        - containerPort:  8080
+          name:  chat-service
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  chat-service-service
+spec:
+  selector:
+    app:  chat-service
+    version: v1
+    type: backend
+  ports:
+  - port:  8080
+    targetPort:  8080
+      

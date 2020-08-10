@@ -12,10 +12,11 @@ var io = require('socket.io')(http , {
   }
 });
 const cors = require("cors");
+const { connected } = require('process');
 app.use(cors());
 
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.NODE_PORT || 8080;
 
 app.get('/', (req, res) => {
   res.send({ message: "I am alive" }).status(200);
@@ -24,14 +25,18 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   socket.on('USER_CONNECTED', (username) => {
     console.log(`User ${username} connected to the socket.`);
-    io.emit('USER_CONNECTED', username);
+    io.emit('MESSAGE', {type: 'connected' , sender: 'server', message: username});
   });
 
   socket.on('MESSAGE', (msg) => {
     console.log(msg);
     if(msg.message.length > 0){
-      io.emit('MESSAGE', msg);
+      io.emit('MESSAGE', {type: 'message' , sender: msg.sender , message: msg.message});
     }
+  });
+
+  socket.on('LOGOUT', (username) => {
+      io.emit('MESSAGE', {type: 'disconnected' , sender: 'server', message: username});
   });
 
   socket.on('disconnect', () => {

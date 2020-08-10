@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+  labels:
+    app:  frontend-app
+    version: v1
+    type: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  frontend-app
+      version: v1
+      type: frontend
+  template:
+    metadata:
+      labels:
+        app:  frontend-app
+        version: v1
+        type: frontend
+    spec:
+      containers:
+      - image:  frontend-app:latest
+        env:
+          - name:  NODE_PORT
+            value: 8080
+        imagePullPolicy: IfNotPresent
+        name:  frontend-app
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "250M"
+          limits:
+            cpu: "200m"
+            memory: "350M"    
+        ports:
+        - containerPort:  5000
+          name:  frontend-app
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  frontend-app-service
+spec:
+  selector:
+    app:  frontend-app
+    version: v1
+    type: frontend
+  type:  NodePort
+  ports:
+  - port:  5000
+    targetPort:  5000
+    nodePort: 31000
+      
