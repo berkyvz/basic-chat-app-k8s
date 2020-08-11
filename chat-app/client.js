@@ -30,6 +30,13 @@ buttonSend.addEventListener('click', function(){
     sendMessage();
 });
 
+addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        sendMessage();
+    }
+});
+
 logoutButton.addEventListener('click', function() {
     document.querySelector('body').append(loginContainer);
     socket.emit('LOGOUT', username)
@@ -47,6 +54,7 @@ function listenMessages(){
         let element = document.createElement('div');
         element.innerHTML = createMessageElement(message);
         messageContainer.appendChild(element);
+        messageContainer.scrollTo(0,messageContainer.scrollHeight);
     });
 }
 
