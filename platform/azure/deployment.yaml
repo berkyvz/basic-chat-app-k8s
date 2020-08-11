@@ -25,7 +25,7 @@ spec:
         env:
         - name:  PORT
           value: "5000"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name:  chat-app
         resources:
           requests:
