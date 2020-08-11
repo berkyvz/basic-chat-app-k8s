@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chat-service
+  name: chat-app
   labels:
-    app:  chat-service
+    app:  chat-app
     version: v1
-    type: backend
+    type: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app:  chat-service
+      app:  chat-app
       version: v1
-      type: backend
+      type: frontend
   template:
     metadata:
       labels:
-        app:  chat-service
+        app:  chat-app
         version: v1
-        type: backend
+        type: frontend
     spec:
       containers:
-      - image:  chat-service:latest
+      - image:  chat-app:latest
         env:
-          - name:  NODE_PORT
-            value: 8080
+        - name:  PORT
+          value: "5000"
         imagePullPolicy: IfNotPresent
-        name:  chat-service
+        name:  chat-app
         resources:
           requests:
             cpu: "150m"
@@ -35,21 +35,23 @@ spec:
             cpu: "200m"
             memory: "350M"    
         ports:
-        - containerPort:  8080
-          name:  chat-service
+        - containerPort:  5000
+          name:  chat-app
 
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
-  name:  chat-service-service
+  name:  chat-app-service
 spec:
   selector:
-    app:  chat-service
+    app:  chat-app
     version: v1
-    type: backend
+    type: frontend
+  type:  NodePort
   ports:
-  - port:  8080
-    targetPort:  8080
+  - port:  5000
+    targetPort:  5000
+    nodePort: 31000
       

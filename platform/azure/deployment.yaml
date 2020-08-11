@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-app
+  name: chat-app
   labels:
-    app:  frontend-app
+    app:  chat-app
     version: v1
     type: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app:  frontend-app
+      app:  chat-app
       version: v1
       type: frontend
   template:
     metadata:
       labels:
-        app:  frontend-app
+        app:  chat-app
         version: v1
         type: frontend
     spec:
       containers:
-      - image:  frontend-app:latest
+      - image:  berkyvz.azurecr.io/chat-app:latest
         env:
-          - name:  NODE_PORT
-            value: 8080
+        - name:  PORT
+          value: "5000"
         imagePullPolicy: IfNotPresent
-        name:  frontend-app
+        name:  chat-app
         resources:
           requests:
             cpu: "150m"
@@ -36,22 +36,21 @@ spec:
             memory: "350M"    
         ports:
         - containerPort:  5000
-          name:  frontend-app
+          name:  chat-app
 
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
-  name:  frontend-app-service
+  name:  chat-app-service
 spec:
   selector:
-    app:  frontend-app
+    app:  chat-app
     version: v1
     type: frontend
-  type:  NodePort
+  type:  LoadBalancer
   ports:
   - port:  5000
     targetPort:  5000
-    nodePort: 31000
       
